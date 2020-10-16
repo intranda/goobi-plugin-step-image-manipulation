@@ -55,8 +55,6 @@ public class ImageManipulationStepPlugin implements IStepPluginVersion2 {
     private String title = "intranda_step_image_manipulation";
     @Getter
     private Step step;
-    @Getter
-    private String value;
     private String returnPath;
     private List<HierarchicalConfiguration> rules;
 
@@ -67,7 +65,6 @@ public class ImageManipulationStepPlugin implements IStepPluginVersion2 {
 
         // read parameters from correct block in configuration file
         SubnodeConfiguration myconfig = ConfigPlugins.getProjectAndStepConfig(title, step);
-        value = myconfig.getString("value", "default value");
         rules = myconfig.configurationsAt("./rule");
     }
 
@@ -121,19 +118,23 @@ public class ImageManipulationStepPlugin implements IStepPluginVersion2 {
             List <String> command =  Arrays.asList(config.getString("./command").split("\\|"));
             List<String> imagefolders = Arrays.asList(config.getStringArray("./imagefolder"));
             List<String> exclude = Arrays.asList(config.getStringArray("./exclude"));
-            List<String> excludeLast = Arrays.asList(config.getStringArray("./excludeLast"));
             List<String> excludeFirst = Arrays.asList(config.getStringArray("./excludeFirst"));
+            List<String> excludeLast = Arrays.asList(config.getStringArray("./excludeLast"));
+            List<String> includeFirst = Arrays.asList(config.getStringArray("./includeFirst"));
+            List<String> includeLast = Arrays.asList(config.getStringArray("./includeLast"));
 
             // run through all defined image folders
             try {
                 for (String f : imagefolders) {
                     Path folder = Paths.get(step.getProzess().getConfiguredImageFolder(f));
-                    log.debug("====================================================================================");
-                    log.debug("Folder: " + folder.toString());
-                    log.debug("Command: " + command);
-                    log.debug("exclude: " + exclude);
-                    log.debug("excludeLast: " + excludeLast);
-                    log.debug("excludeFirst: " + excludeFirst);
+                    log.trace("====================================================================================");
+                    log.trace("Folder: " + folder.toString());
+                    log.trace("Command: " + command);
+                    log.trace("exclude: " + exclude);
+                    log.trace("excludeFirst: " + excludeFirst);
+                    log.trace("excludeLast: " + excludeLast);
+                    log.trace("includeFirst: " + includeFirst);
+                    log.trace("includeLast: " + includeLast);
                     List<Path> files = StorageProvider.getInstance().listFiles(folder.toString());
                     List<Path> result = StorageProvider.getInstance().listFiles(folder.toString());
 
@@ -157,10 +158,24 @@ public class ImageManipulationStepPlugin implements IStepPluginVersion2 {
                             result.remove(file);
                         }
                     }
+                    
+                    // add configured first files
+                    for (String ex : includeFirst) {
+                        for (Path file : getSelectedFiles(files, "first", Integer.parseInt(ex))) {
+                            result.add(file);
+                        }
+                    }                    
 
+                    // add configured last files
+                    for (String ex : includeLast) {
+                        for (Path file : getSelectedFiles(files, "last", Integer.parseInt(ex))) {
+                            result.add(file);
+                        }
+                    }                    
+                    
                     // now run through all found images and do the shell command call to manipulate the image
                     for (Path file : result) {
-                        // log.debug("Result: " + file);
+                        log.trace("Result: " + file);
                         callScript(file.toString(), command);
                     }
 
@@ -193,7 +208,7 @@ public class ImageManipulationStepPlugin implements IStepPluginVersion2 {
             boolean odd = i % 2 == 0;
             int last = files.size() - i;
             int first = i + 1;
-            // log.debug("File: " + files.get(i) + " - " + even + " - " + odd + " - " + last + " - " + first);
+            log.trace("File: " + files.get(i) + " - " + even + " - " + odd + " - " + last + " - " + first);
 
             if (filter.equals("odd") && odd) {
                 result.add(files.get(i));

@@ -12,15 +12,11 @@
 		<project>*</project>
 		<step>*</step>
 
-		<!-- sample parameter -->
-		<value>test</value>
-
 		<rule>
 			<!-- which command shall get executed -->
 			<command>/usr/bin/mogrify|-rotate|-90|IMAGE_FILE</command>
 
 			<!-- which image folders to use (master|media|jpeg|source|...) -->
-			<imagefolder>master</imagefolder>
 			<imagefolder>media</imagefolder>
 
 			<!-- which files to be ignored for this command (odd|even) -->
@@ -30,12 +26,24 @@
 			<excludeFirst>1</excludeFirst>
 			<excludeFirst>2</excludeFirst>
 			<excludeFirst>3</excludeFirst>
-			
+
+			<!-- which first files to be included although possibly odd or even (e.g. value '2' means 'second') -->
+			<includeFirst>1</includeFirst>
+
 			<!-- which last files to be ignored (e.g. value '2' means 'second to last') -->
 			<excludeLast>1</excludeLast>
 			<excludeLast>2</excludeLast>
 			<excludeLast>3</excludeLast>
+
+			<!-- which last files to be included although possibly odd or even (e.g. value '2' means 'second to last') -->
+			<includeLast>1</includeLast>
 		</rule>
+	</config>
+
+	<config>
+		<!-- which projects to use for (can be more then one, otherwise use *) -->
+		<project>Complete real life project sample</project>
+		<step>Rotate and convert master images</step>
 
 		<rule>
 			<!-- which command shall get executed -->
@@ -43,12 +51,38 @@
 
 			<!-- which image folders to use (master|media|jpeg|source|...) -->
 			<imagefolder>master</imagefolder>
-			<imagefolder>media</imagefolder>
+
+			<!-- which files to be ignored for this command (odd|even) -->
+			<exclude>odd</exclude>
+
+			<!-- which last files to be ignored (e.g. value '2' means 'second to last') -->
+			<excludeLast>2</excludeLast>
+		</rule>
+
+		<rule>
+			<!-- which command shall get executed -->
+			<command>/usr/bin/mogrify|-rotate|-90|IMAGE_FILE</command>
+
+			<!-- which image folders to use (master|media|jpeg|source|...) -->
+			<imagefolder>master</imagefolder>
 
 			<!-- which files to be ignored for this command (odd|even) -->
 			<exclude>even</exclude>
+
+			<!-- which last files to be ignored (e.g. value '2' means 'second to last') -->
+			<excludeLast>1</excludeLast>
+
+			<!-- which last files to be included although possibly odd or even (e.g. value '2' means 'second to last') -->
+			<includeLast>2</includeLast>
 		</rule>
 
+		<rule>
+			<!-- which command shall get executed -->
+			<command>/usr/bin/convert|-depth|8|IMAGE_FILE|IMAGE_FILE</command>
+
+			<!-- which image folders to use (master|media|jpeg|source|...) -->
+			<imagefolder>master</imagefolder>
+		</rule>
 	</config>
 
 </config_plugin>
