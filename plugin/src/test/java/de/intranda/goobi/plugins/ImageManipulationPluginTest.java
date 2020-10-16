@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class SamplePluginTest {
+public class ImageManipulationPluginTest {
 
     @Test
     public void testVersion() throws IOException {

@@ -1,0 +1,54 @@
+<config_plugin>
+    <!--
+        order of configuration is:
+          1.) project name and step name matches
+          2.) step name matches and project is *
+          3.) project name matches and step name is *
+          4.) project name and step name are *
+	-->
+
+	<config>
+		<!-- which projects to use for (can be more then one, otherwise use *) -->
+		<project>*</project>
+		<step>*</step>
+
+		<!-- sample parameter -->
+		<value>test</value>
+
+		<rule>
+			<!-- which command shall get executed -->
+			<command>/usr/bin/mogrify|-rotate|-90|IMAGE_FILE</command>
+
+			<!-- which image folders to use (master|media|jpeg|source|...) -->
+			<imagefolder>master</imagefolder>
+			<imagefolder>media</imagefolder>
+
+			<!-- which files to be ignored for this command (odd|even) -->
+			<exclude>odd</exclude>
+
+			<!-- which first files to be ignored (e.g. value '2' means 'second') -->
+			<excludeFirst>1</excludeFirst>
+			<excludeFirst>2</excludeFirst>
+			<excludeFirst>3</excludeFirst>
+			
+			<!-- which last files to be ignored (e.g. value '2' means 'second to last') -->
+			<excludeLast>1</excludeLast>
+			<excludeLast>2</excludeLast>
+			<excludeLast>3</excludeLast>
+		</rule>
+
+		<rule>
+			<!-- which command shall get executed -->
+			<command>/usr/bin/mogrify|-rotate|90|IMAGE_FILE</command>
+
+			<!-- which image folders to use (master|media|jpeg|source|...) -->
+			<imagefolder>master</imagefolder>
+			<imagefolder>media</imagefolder>
+
+			<!-- which files to be ignored for this command (odd|even) -->
+			<exclude>even</exclude>
+		</rule>
+
+	</config>
+
+</config_plugin>
