@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.goobi.workflow.plugin</groupId>
-    <artifactId>plugin-step-image_manipulation</artifactId>
+    <artifactId>plugin-step-image-manipulation</artifactId>
     <version>24.03-SNAPSHOT</version>
   </parent>
-  <artifactId>plugin-step-image_manipulation-base</artifactId>
+  <artifactId>plugin-step-image-manipulation-base</artifactId>
   <packaging>jar</packaging>
 </project>
